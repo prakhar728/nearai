@@ -259,7 +259,7 @@ class Registry:
         `local_path` should have metadata.json present.
         Files matching patterns in .gitignore (if present) will be excluded from upload.
         If encryption_key is present in metadata.json, uploaded files will be encrypted.
-        If encrypt == True, will generate an encryption_key, if encryption_key is nor present.
+        If encrypt == True, will generate an encryption_key, if encryption_key is not present.
         """
         path = Path(local_path).absolute()
 
