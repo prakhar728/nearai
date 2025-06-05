@@ -2,6 +2,7 @@ import io
 import json
 import multiprocessing
 import os
+import platform
 import shutil
 import subprocess
 import sys
@@ -188,7 +189,7 @@ class Agent(object):
         self.code: Optional[CodeType] = None
         self.file_cache: dict[str, Union[str, bytes]] = {}
         self.identifier = identifier
-        name_parts = identifier.split("/")
+        name_parts = identifier.split(os.sep)
         self.namespace = name_parts[0]
         self.name = name_parts[1]
         self.version = name_parts[2]
@@ -308,8 +309,8 @@ class Agent(object):
     ) -> Tuple[Optional[str], Optional[str]]:
         """Launch python agent."""
         try:
-            # switch to user env.agent_runner_user (Unix-only)
-            if agent_runner_user:
+            # Switch to user env.agent_runner_user (Unix-only, skip on Windows)
+            if agent_runner_user and platform.system() != "Windows":  # noqa: D203,D211,D212,D213
                 import pwd
 
                 user_info = pwd.getpwnam(agent_runner_user)
