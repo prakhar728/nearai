@@ -23,16 +23,20 @@ class AnalyticsWrapper:
         self.__dict__["_analytics_collector"] = analytics_collector
 
     def __getattr__(self, name: str) -> Any:
-        """Intercept attribute access to wrap methods or return nested wrappers."""
+        """Intercept attribute access to wrap methods or return original attributes."""
         attr = getattr(self._client, name)
 
         if callable(attr):
             # Wrap callable methods
             return self._wrap_method(attr, name)
         else:
-            # For non-callable attributes (like nested clients), wrap them recursively
-            nested_client_name = f"{self._client_name}.{name}"
-            return AnalyticsWrapper(attr, nested_client_name, self._analytics_collector)
+            # For non-callable attributes that are objects, wrap them but give them access to root client
+            if hasattr(attr, "__dict__") and not isinstance(attr, (str, int, float, bool, type(None))):
+                nested_client_name = f"{self._client_name}.{name}"
+                return AnalyticsWrapper(attr, nested_client_name, self._analytics_collector)
+            else:
+                # Return simple attributes unwrapped
+                return attr
 
     def _wrap_method(self, method: Any, method_name: str):
         """Wrap a method to track calls and latency."""
