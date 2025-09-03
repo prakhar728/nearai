@@ -249,10 +249,10 @@ def display_success_and_options(agent_path: Path) -> None:
         f"""[bold blue]What would you like to do next?[/bold blue]
 
 [bold blue]1.[/bold blue] {options[0]}
-[bold blue]1.[/bold blue] {options[1]}
-[bold blue]2.[/bold blue] {options[2]}
-[bold blue]3.[/bold blue] {options[3]}
-[bold blue]4.[/bold blue] {options[4]}""",
+[bold blue]2.[/bold blue] {options[1]}
+[bold blue]3.[/bold blue] {options[2]}
+[bold blue]4.[/bold blue] {options[3]}
+[bold blue]5.[/bold blue] {options[4]}""",
         title="[bold blue]Next Steps[/bold blue]",
         border_style="blue",
     )
